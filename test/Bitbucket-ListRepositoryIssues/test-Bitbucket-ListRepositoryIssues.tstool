@@ -1,0 +1,4 @@
+StartLog(LogFile="results/test-Bitbucket-ListRepositoryIssues.tstool.log")
+#
+# List all issues for a single repository.
+Bitbucket(DataStore="Bitbucket-trilynx-build",BitbucketCommand="ListRepositoryIssues",ListRepositoriesRegEx="trilynx-novastar-core",Assignee="Steve Malers",OutputTableID="Test_ListRepositoryIssues")

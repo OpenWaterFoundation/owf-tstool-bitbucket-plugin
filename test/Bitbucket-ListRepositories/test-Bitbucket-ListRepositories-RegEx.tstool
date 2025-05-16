@@ -1,0 +1,4 @@
+StartLog(LogFile="results/test-Bitbucket-ListRepositories-RegEx.tstool.log")
+#
+# List repositories filtered using a regular expression.
+Bitbucket(DataStore="Bitbucket-trilynx-build",BitbucketCommand="ListRepositories",ListRepositoriesRegEx="trilynx-novastar-core*",OutputTableID="Test_ListRepositories")

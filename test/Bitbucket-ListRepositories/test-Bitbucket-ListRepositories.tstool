@@ -1,0 +1,4 @@
+StartLog(LogFile="results/test-Bitbucket-ListRepositories.tstool.log")
+#
+# List all repositories.
+Bitbucket(DataStore="Bitbucket-trilynx-build",BitbucketCommand="ListRepositories",OutputTableID="Test_ListRepositories")
