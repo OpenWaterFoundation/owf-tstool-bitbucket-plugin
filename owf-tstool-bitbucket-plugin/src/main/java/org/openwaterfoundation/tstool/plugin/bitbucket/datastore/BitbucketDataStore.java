@@ -493,10 +493,10 @@ public class BitbucketDataStore extends AbstractWebServiceDataStore implements D
 	 */
 	public void readGlobalData () {
 		String routine = getClass().getSimpleName() + ".readGlobalData";
-		Message.printWarning ( 2, routine, "Reading global data for datastore \"" + getName() + "\"." );
+		//Message.printWarning ( 2, routine, "Reading global data for datastore \"" + getName() + "\"." );
 		OffsetDateTime now = OffsetDateTime.now();
 		//this.globalDataExpirationTime = now.plusSeconds(this.globalDataExpirationOffset);
-		Message.printWarning ( 2, routine, "Global data will expire at: " + this.globalDataExpirationTime );
+		//Message.printWarning ( 2, routine, "Global data will expire at: " + this.globalDataExpirationTime );
 
 		// Add to avoid Eclipse warning if 'debug' is not used.
 		if ( debug ) {

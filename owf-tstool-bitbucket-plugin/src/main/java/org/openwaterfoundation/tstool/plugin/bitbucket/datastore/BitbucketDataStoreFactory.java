@@ -36,6 +36,10 @@ public class BitbucketDataStoreFactory implements DataStoreFactory {
 	@param props datastore configuration properties, such as read from the configuration file
 	*/
 	public DataStore create ( PropList props ) {
+		String routine = getClass().getSimpleName() + ".create";
+		// Only uncomment this during troubleshooting.
+	    //Message.printStatus(2, routine, "DataStore properties are: " + props.toString(","));
+
 	    String name = props.getValue ( "Name" );
 	    String description = props.getValue ( "Description" );
 	    if ( description == null ) {
@@ -46,14 +50,18 @@ public class BitbucketDataStoreFactory implements DataStoreFactory {
 	    if ( serviceRootURL == null ) {
 	    	System.out.println("Bitbucket ServiceRootURL is not defined in the datastore configuration file.");
 	    }
-	    // Workspace and WorkspaceAccessToken are used together to grant access to a workspace.
-	    String workspace = props.getValue ( "Workspace" );
-	    if ( workspace == null ) {
-	    	System.out.println("Bitbucket Workspace is not defined in the datastore configuration file.");
+	    // UserName, WorkspaceID and AppPassword are used together to grant access to a workspace.
+	    String userName = props.getValue ( "UserName" );
+	    if ( userName == null ) {
+	    	System.out.println("Bitbucket UserName is not defined in the datastore configuration file.");
 	    }
-	    String workspaceAccessToken = props.getValue ( "WorkspaceAccessToken" );
-	    if ( workspaceAccessToken == null ) {
-	    	System.out.println("Bitbucket WorkspaceAccessToken is not defined in the datastore configuration file.");
+	    String workspaceId = props.getValue ( "WorkspaceID" );
+	    if ( workspaceId == null ) {
+	    	System.out.println("Bitbucket WorkspaceID is not defined in the datastore configuration file.");
+	    }
+	    String appPassword = props.getValue ( "AppPassword" );
+	    if ( appPassword == null ) {
+	    	System.out.println("Bitbucket AppPassword is not defined in the datastore configuration file.");
 	    }
 	    try {
 	        DataStore ds = new BitbucketDataStore ( name, description, new URI(serviceRootURL), props );
