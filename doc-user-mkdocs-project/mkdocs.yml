@@ -2,7 +2,7 @@
 # Use hash-comments to comment out pages have not been written
 # Reference: http://www.mkdocs.org/user-guide/configuration/
 #
-site_name: Open Water Foundation / TSTool TimesheetsCom Plugin
+site_name: Open Water Foundation / TSTool Bitbucket Plugin
 nav:
 - Home: index.md
 - Introduction: introduction/introduction.md
@@ -11,11 +11,10 @@ nav:
 - Troubleshooting: troubleshooting/troubleshooting.md
 - Reference - Commands:
   - Overview: command-ref/overview.md
-  - ReadTimesheetsCom: command-ref/ReadTimesheetsCom/ReadTimesheetsCom.md
-  - TSID: command-ref/TSID/TSID.md
+  - Bitbucket: command-ref/Bitbucket/Bitbucket.md
 - Reference - Datastores:
   - Overview: datastore-ref/overview.md
-  - TimesheetsCom Web Services: datastore-ref/TimesheetsCom/TimesheetsCom.md
+  - Bitbucket Web Services: datastore-ref/Bitbucket/Bitbucket.md
 - 'Appendix - Release Notes': appendix-release-notes/release-notes.md
 - 'Appendix - Install Plugin': appendix-install/install.md
 # ------- configuration properties ---------------
@@ -43,7 +42,7 @@ extra:
 #repo_url:  https://github.com/OpenWaterFoundation/cdss-app-tstool-doc-user
 # ------------------------------------------------
 site_author:  Open Water Foundation
-site_description:  TSTool TimesheetsCom Plugin
+site_description:  TSTool Bitbucket Plugin
 # ------------------------------------------------
 # Use Material theme
 # - installation notes:  https://github.com/squidfunk/mkdocs-material

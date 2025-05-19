@@ -1,26 +1,26 @@
 # TSTool / Datastore Reference / Overview #
 
-* [Introduction](#introduction)
-* [TimesheetsCom Datastore](#timesheetscom-datastores)
-* [Datastore Configuration](#datastore-configuration)
+*   [Introduction](#introduction)
+*   [Bitbucket Datastore](#bitbucket-datastore)
+*   [Datastore Configuration](#datastore-configuration)
 
 -----
 
 ## Introduction ##
 
 This reference section of the documentation provides information about the TSTool datastore
-that can be used to access `timesheets.com` data.
+that can be used to access Bitbucket repository data.
 
 See the [TSTool full documentation](https://opencdss.state.co.us/tstool/latest/doc-user/datastore-ref/overview/) for more information
 about all datastores that are supported, including other data sources.
 
-## TimesheetsCom Datastores ##
+## Bitbucket Datastore ##
 
-The following datastores provide access to `timesheets.com` data.
+The following datastore provides access to Bitbucket repository data.
 
 | **Datastore (link to documentation)** | **Technology** | **Contents** |
 |--|--|--|
-| [TimesheetsCom Web Services](TimesheetsCom/TimesheetsCom.md) | Web service (REST). | Real-time and historical timesheet data. |
+| [Bitbucket Web Services](Bitbucket/Bitbucket.md) | Web service (REST). | Bitbucket project and repository data. |
 
 ## Datastore Configuration ##
 

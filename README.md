@@ -82,7 +82,7 @@ The Maven project was initially created as described in the [initialization READ
     [TSTool documentation for developers](https://opencdss.state.co.us/tstool/latest/doc-dev/).
 3.  Clone this repository similar to other TSTool repositories.
 4.  In Eclipse, use the ***File / Import...*** menu to display the ***Import*** dialog.
-5.  Select the ****Maven / Existing Maven Projects*** choice and then ***Next***.
+5.  Select the ***Maven / Existing Maven Projects*** choice and then ***Next***.
 6.  Browse to the `cdss-dev/TSTool/git-repos/owf-tstool-bitbucket-plugin/owf-tstool-bitbucket-plugin` folder
     and ***Select Folder***.
     The folders are redundant because one is for the repository and one is the Maven project.

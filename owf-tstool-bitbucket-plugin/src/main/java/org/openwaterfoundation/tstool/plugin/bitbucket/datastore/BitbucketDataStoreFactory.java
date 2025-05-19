@@ -41,9 +41,10 @@ public class BitbucketDataStoreFactory implements DataStoreFactory {
 	    if ( description == null ) {
 	        description = "";
 	    }
-	    String serviceRootURI = props.getValue ( "ServiceRootURI" );
-	    if ( serviceRootURI == null ) {
-	    	System.out.println("Bitbucket ServiceRootURI is not defined in the datastore configuration file.");
+	    // New convention is to use ServiceRootURL
+	    String serviceRootURL = props.getValue ( "ServiceRootURL" );
+	    if ( serviceRootURL == null ) {
+	    	System.out.println("Bitbucket ServiceRootURL is not defined in the datastore configuration file.");
 	    }
 	    // Workspace and WorkspaceAccessToken are used together to grant access to a workspace.
 	    String workspace = props.getValue ( "Workspace" );
@@ -55,7 +56,7 @@ public class BitbucketDataStoreFactory implements DataStoreFactory {
 	    	System.out.println("Bitbucket WorkspaceAccessToken is not defined in the datastore configuration file.");
 	    }
 	    try {
-	        DataStore ds = new BitbucketDataStore ( name, description, new URI(serviceRootURI), props );
+	        DataStore ds = new BitbucketDataStore ( name, description, new URI(serviceRootURL), props );
 	        return ds;
 	    }
 	    catch ( Exception e ) {

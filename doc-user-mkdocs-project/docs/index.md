@@ -1,7 +1,8 @@
-# OWF / TSTool TimesheetsCom Plugin #
+# OWF / TSTool Bitbucket Plugin #
 
-This is the user documentation for the Open Water Foundation TSTool TimesheetsCom (`timesheets.com`) web services plugin.
-This plugin allows timesheet data from [`timesheets.com`](https://timesheets.com) to be listed and read as time series.
+This is the user documentation for the Open Water Foundation TSTool Bitbucket Cloud web services plugin.
+This plugin allows repository data from [`bitbucket.org`](https://bitbucket.org/) to be processed
+using the [Bitbucket Cloud API](https://developer.atlassian.com/cloud/bitbucket/rest/).
 
 *   [Acknowledgements](#acknowledgements)
 *   [How to Use this Documentation](#how-to-use-this-documentation)
@@ -9,8 +10,8 @@ This plugin allows timesheet data from [`timesheets.com`](https://timesheets.com
 
 This documentation has been updated for:
 
-*   TSTool version 14.9.7
-*   TSTool TimesheetsCom plugin version 1.1.4
+*   TSTool version 15.1.0
+*   TSTool Bitbucket plugin version 1.0.0
 
 ----------------
 
@@ -19,7 +20,7 @@ This documentation has been updated for:
 TSTool has been developed by the [Open Water Foundation (OWF)](https://openwaterfoundation.org) with significant
 funding from the State of Colorado and other sources.
 
-Initial funding for this plugin was provided by the Open Water Foundation and TriLynx Systems.
+Initial funding for this plugin was provided by the Open Water Foundation and [TriLynx Systems](https://trilynx.systems).
 
 ## How to Use this Documentation ##
 
@@ -41,4 +42,4 @@ See also the full TSTool documentation:
 
 ## Software Download Page ##
 
-See the [TSTool TimesheetsCom Plugin](https://software.openwaterfoundation.org/tstool-timesheetscom-plugin/) download page.
+See the [TSTool Bitbucket Plugin](https://software.openwaterfoundation.org/tstool-bitbucket-plugin/) download page.

@@ -1,7 +1,7 @@
-# TSTool TimesheetsCom Plugin / Introduction #
+# TSTool Bitbucket Plugin / Introduction #
 
 *   [Introduction](#introduction)
-*   [TSTool use with TimesheetsCom Web Services](#tstool-use-with-timesheetscom-web-services)
+*   [TSTool use with Bitbucket Cloud Web Services](#tstool-use-with-bitbucket-cloud-web-services)
 
 ----------------------
 
@@ -20,20 +20,18 @@ been enhanced to work with many data sources including:
 TSTool is maintained by the Open Water Foundation,
 which also enhances the software based on project needs.
 
-*   See the latest [TSTool Documentation](https://opencdss.state.co.us/tstool/latest/doc-user/) to learn about core TSTool features.
 *   See the [TSTool Download website](https://opencdss.state.co.us/tstool/) for the most recent software versions and documentation.
-*   See the [TimesheetsCom Plugin download page](https://software.openwaterfoundation.org/tstool-timesheetscom-plugin/).
+*   See the latest [TSTool Documentation](https://opencdss.state.co.us/tstool/latest/doc-user/) released by the State of Colorado to learn about core TSTool features.
+*   See the [Bitbucket Plugin download page](https://software.openwaterfoundation.org/tstool-bitbucket-plugin/).
 
-## TSTool use with TimesheetsCom Web Services ##
+## TSTool use with Bitbucket Cloud Web Services ##
 
-The [`timesheets.com`](https://timesheets.com) cloud-hosted timesheet system manages timesheet data.
+The [Bitbucket](https://bitbucket.org) site hosts Git repositories.
+This plugin lists Bitbucket projects, repositories, and repository data,
+which allows automating workflows that process repository data.
 
 See the following resources:
 
-*   [`timesheets.com` Getting Started with the API](https://support2.timesheets.com/knowledge-base/getting-started/)
-*   [`timesheets.com` Web Service API Documentation](https://secure05v.timesheets.com/api/public/v1/index.cfm?docs)
+*   [Bitbucket Cloud Web Service API Documentation](https://developer.atlassian.com/cloud/bitbucket/rest/)
 
-The [TimesheetsCom datastore documentation](../datastore-ref/TimesheetsCom/TimesheetsCom.md) describes how TSTool integrates with the API.
-
-The [`ReadTimesheetsCom`](../command-ref/ReadTimesheetsCom/ReadTimesheetsCom.md) command can be used to read time series,
-in addition to time series identifiers that are generated from the main TSTool interface.
+The [Bitbucket datastore documentation](../datastore-ref/Bitbucket/Bitbucket.md) describes how TSTool integrates with the API.

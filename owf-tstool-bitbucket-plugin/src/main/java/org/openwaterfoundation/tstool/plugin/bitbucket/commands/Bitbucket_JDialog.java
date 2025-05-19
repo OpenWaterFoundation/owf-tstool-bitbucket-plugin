@@ -462,7 +462,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 
 	    JGUIUtil.addComponent(libProjects_JPanel, new JLabel ("List all projects that are visible to the user based on the datastore configuration."),
 			0, ++yListProjects, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
-	    JGUIUtil.addComponent(libProjects_JPanel, new JLabel ("Use * in the regular expression as wildcards to filter the results."),
+	    JGUIUtil.addComponent(libProjects_JPanel, new JLabel ("Use * in the regular expression as wildcards to filter the projects names."),
 			0, ++yListProjects, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
 	    JGUIUtil.addComponent(libProjects_JPanel, new JLabel ("See the 'Output' tab to specify the output table and/or file for the project list."),
 			0, ++yListProjects, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
@@ -472,7 +472,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 	    JGUIUtil.addComponent(libProjects_JPanel, new JLabel ( "Regular expression:"),
 	        0, ++yListProjects, 1, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.EAST);
 	    __ListProjectsRegEx_JTextField = new JTextField ( "", 30 );
-	    __ListProjectsRegEx_JTextField.setToolTipText("Regular expression to filter results, default=glob (*) style");
+	    __ListProjectsRegEx_JTextField.setToolTipText("Regular expression to filter the project names, default=glob (*) style");
 	    __ListProjectsRegEx_JTextField.addKeyListener ( this );
 	    JGUIUtil.addComponent(libProjects_JPanel, __ListProjectsRegEx_JTextField,
 	        1, yListProjects, 2, 1, 1, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
@@ -497,7 +497,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 
 	    JGUIUtil.addComponent(listRepos_JPanel, new JLabel ("List all repositories that are visible to the user based on the datastore configuration."),
 			0, ++yListRepos, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
-	    JGUIUtil.addComponent(listRepos_JPanel, new JLabel ("A filter can also be provided to use when listing repository issues."),
+	    JGUIUtil.addComponent(listRepos_JPanel, new JLabel ("A filter can also be provided to filter repositories by name."),
 			0, ++yListRepos, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
 	    JGUIUtil.addComponent(listRepos_JPanel, new JLabel ("Use * in the regular expression as wildcards to filter the results."),
 			0, ++yListRepos, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
@@ -509,7 +509,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 	    JGUIUtil.addComponent(listRepos_JPanel, new JLabel ( "Regular expression:"),
 	        0, ++yListRepos, 1, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.EAST);
 	    __ListRepositoriesRegEx_JTextField = new JTextField ( "", 30 );
-	    __ListRepositoriesRegEx_JTextField.setToolTipText("Regular expression to filter results, default=glob (*) style");
+	    __ListRepositoriesRegEx_JTextField.setToolTipText("Regular expression to filter results by repository name, default=glob (*) style");
 	    __ListRepositoriesRegEx_JTextField.addKeyListener ( this );
 	    JGUIUtil.addComponent(listRepos_JPanel, __ListRepositoriesRegEx_JTextField,
 	        1, yListRepos, 2, 1, 1, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
@@ -533,9 +533,13 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 	    listIssues_JPanel.setLayout( new GridBagLayout() );
 	    __main_JTabbedPane.addTab ( "List Repository Issues", listIssues_JPanel );
 
-	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel ("List all repository issues that are visible to the user based on the datastore configuration."),
+	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel ("List repository issues that are visible to the user based on the datastore configuration."),
 			0, ++yListIssues, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
-	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel ("See the 'Output' tab to specify the output file and/or table for the bucket object list."),
+	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel ("Parameters can also be provided to filter repository issues."),
+			0, ++yListIssues, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
+	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel ("Use the 'List Repositories' parameters to control which repositories are processed."),
+			0, ++yListIssues, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
+	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel ("See the 'Output' tab to specify the output file and/or table for the repository issues list."),
 			0, ++yListIssues, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
 	    JGUIUtil.addComponent(listIssues_JPanel, new JSeparator(SwingConstants.HORIZONTAL),
 	    	0, ++yListIssues, 8, 1, 0, 0, insetsTLBR, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST);
@@ -595,7 +599,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel ( "Regular expression:"),
 	        0, ++yListIssues, 1, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.EAST);
 	    __ListRepositoryIssuesRegEx_JTextField = new JTextField ( "", 30 );
-	    __ListRepositoryIssuesRegEx_JTextField.setToolTipText("Regular expression to filter results, default=glob (*) style");
+	    __ListRepositoryIssuesRegEx_JTextField.setToolTipText("Regular expression to filter issues by title, default=glob (*) style");
 	    __ListRepositoryIssuesRegEx_JTextField.addKeyListener ( this );
 	    JGUIUtil.addComponent(listIssues_JPanel, __ListRepositoryIssuesRegEx_JTextField,
 	        1, yListIssues, 2, 1, 1, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
@@ -605,7 +609,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 	    JGUIUtil.addComponent(listIssues_JPanel, new JLabel("List repository issues count property:"),
 	        0, ++yListIssues, 1, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.EAST);
 	    __ListRepositoryIssuesCountProperty_JTextField = new JTextField ( "", 30 );
-	    __ListRepositoryIssuesCountProperty_JTextField.setToolTipText("Specify the property name for the bucket object list result size, can use ${Property} notation");
+	    __ListRepositoryIssuesCountProperty_JTextField.setToolTipText("Specify the property name for the repository issues result size, can use ${Property} notation");
 	    __ListRepositoryIssuesCountProperty_JTextField.addKeyListener ( this );
 	    JGUIUtil.addComponent(listIssues_JPanel, __ListRepositoryIssuesCountProperty_JTextField,
 	        1, yListIssues, 1, 1, 1, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.WEST);
@@ -637,7 +641,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 	    JGUIUtil.addComponent(output_JPanel, new JLabel ( "Output Table ID:" ),
 	        0, ++yOutput, 1, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.EAST);
 	    __OutputTableID_JComboBox = new SimpleJComboBox ( 12, true ); // Allow edit.
-	    __OutputTableID_JComboBox.setToolTipText("Table for output, available for List Buckets and List Objects");
+	    __OutputTableID_JComboBox.setToolTipText("Table for output, available for List Projects, List Repositories, and List Repository Issues commands, can use ${Property} notation.");
 	    tableIDChoices.add(0,""); // Add blank to ignore table.
 	    __OutputTableID_JComboBox.setData ( tableIDChoices );
 	    __OutputTableID_JComboBox.addItemListener ( this );
@@ -652,7 +656,7 @@ implements ActionListener, ChangeListener, ItemListener, KeyListener, WindowList
 	        0, ++yOutput, 1, 1, 0, 0, insetsTLBR, GridBagConstraints.NONE, GridBagConstraints.EAST);
 	    __OutputFile_JTextField = new JTextField ( 50 );
 	    __OutputFile_JTextField.setToolTipText(
-	    	"Output file, available for List Projects, List Repositories, and List Issues, can use ${Property} notation.");
+	    	"Output file, available for List Projects, List Repositories, and List Repository Issues commands, can use ${Property} notation.");
 	    __OutputFile_JTextField.addKeyListener ( this );
 	    // Output file layout fights back with other rows so put in its own panel.
 		JPanel OutputFile_JPanel = new JPanel();

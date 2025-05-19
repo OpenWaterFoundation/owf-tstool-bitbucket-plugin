@@ -651,7 +651,7 @@ public class BitbucketDataStore extends AbstractWebServiceDataStore implements D
  	 */
 	public List<Project> readProjects ( BitbucketSession session, int timeoutSeconds ) throws IOException {
 		String routine = getClass().getSimpleName() + ".readProjects";
-		boolean debug = true;
+		//boolean debug = true;
 		
 		String rootUrl = getServiceRootURI().toString();
 		if ( ! rootUrl.endsWith("/") ) {
@@ -737,7 +737,7 @@ public class BitbucketDataStore extends AbstractWebServiceDataStore implements D
  	 */
 	public List<Repository> readRepositories ( BitbucketSession session, int timeoutSeconds ) throws IOException {
 		String routine = getClass().getSimpleName() + ".readRepositories";
-		boolean debug = true;
+		//boolean debug = true;
 		
 		String rootUrl = getServiceRootURI().toString();
 		if ( ! rootUrl.endsWith("/") ) {
@@ -825,7 +825,7 @@ public class BitbucketDataStore extends AbstractWebServiceDataStore implements D
  	 */
 	public List<Issue> readRepositoryIssues ( BitbucketSession session, Repository repository, int timeoutSeconds ) throws IOException {
 		String routine = getClass().getSimpleName() + ".readRepositoryIssues";
-		boolean debug = true;
+		//boolean debug = true;
 		List<Issue> issueList = new ArrayList<>();
 		
 		if ( !repository.getHasIssues() ) {

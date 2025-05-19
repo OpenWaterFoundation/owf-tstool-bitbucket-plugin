@@ -6,10 +6,10 @@
 #   folder consistent with the TSTool plugins folder:
 #
 #     TSTool 15:
-#       ./tstool/NN/plugins/owf-tstool-timesheetscom-plugin/1.2.3/
+#       ./tstool/NN/plugins/owf-tstool-bitbucket-plugin/1.0.0/
 #
 #     TSTool before version 15:
-#       ./tstool/NN/plugins/owf-tstool-timesheetscom-plugin/
+#       ./tstool/NN/plugins/owf-tstool-bitbucket-plugin/
 
 # Supporting functions, alphabetized.
 

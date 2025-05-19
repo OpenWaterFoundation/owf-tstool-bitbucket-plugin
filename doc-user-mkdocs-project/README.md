@@ -1,20 +1,20 @@
-# owf-tstool-timesheetscom-plugin User Documentation #
+# owf-tstool-bitbucket-plugin User Documentation #
 
-This folder contains the user documentation for the Open Water Foundation TSTool TimesheetsCom plugin software, including release notes.
+This folder contains the user documentation for the Open Water Foundation TSTool Bitbucket plugin software, including release notes.
 
 See also:
 
-* [Colorado's Decision Support Systems TSTool](http://opencdss.state.co.us/tstool/latest/doc-user/) documentation.
-* [TSTool Software Downloads](http://opencdss.state.co.us/tstool/)
-* [Open Water Foundation Software](https://software.openwaterfoundation.org/)
+*   [Colorado's Decision Support Systems TSTool](http://opencdss.state.co.us/tstool/latest/doc-user/) documentation.
+*   [TSTool Software Downloads](http://opencdss.state.co.us/tstool/)
+*   [Open Water Foundation Software](https://software.openwaterfoundation.org/)
 
 See the following sections on this page:
 
-* [Repository Contents](#repository-contents)
-* [Development Environment](#development-environment)
-* [Editing and Viewing Content](#editing-and-viewing-content)
-* [Deploying the Documentation](#deploying-the-documentation)
-* [Style Guide](#style-guide)
+*   [Repository Contents](#repository-contents)
+*   [Development Environment](#development-environment)
+*   [Editing and Viewing Content](#editing-and-viewing-content)
+*   [Deploying the Documentation](#deploying-the-documentation)
+*   [Style Guide](#style-guide)
 
 ---------------------------
 
