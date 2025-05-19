@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import RTi.Util.String.StringUtil;
 import RTi.Util.Time.DateTime;
 
 /**
@@ -154,7 +153,10 @@ public class Issue {
 
 	/**
 	 * "links"
+	 * 
+	 * This could be a map containing link objects for for now fully describe with specific Link objects.
 	 */
+	@JsonProperty("links")
 	private IssueLinks issueLinks = null;
 
 	/**

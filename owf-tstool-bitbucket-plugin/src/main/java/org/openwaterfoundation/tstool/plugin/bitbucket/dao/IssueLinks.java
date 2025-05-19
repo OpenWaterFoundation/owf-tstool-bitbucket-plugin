@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Bitbucket "issues" objects from 'values' array.
  *
+ * - 'self' is the URL to the API call
+ * - 'html' is the link to the issue web page
 {
       ...
       "links": {
