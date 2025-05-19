@@ -48,6 +48,7 @@ public class Link {
 	 * "name"
 	 */
 	private String name = "";
+
 	/**
 	 * Default constructor used by Jackson.
 	 */

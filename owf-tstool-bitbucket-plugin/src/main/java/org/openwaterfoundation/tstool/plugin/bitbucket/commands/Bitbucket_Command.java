@@ -24,6 +24,7 @@ package org.openwaterfoundation.tstool.plugin.bitbucket.commands;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +32,9 @@ import javax.swing.JFrame;
 
 import org.openwaterfoundation.tstool.plugin.bitbucket.app.BitbucketSession;
 import org.openwaterfoundation.tstool.plugin.bitbucket.dao.Issue;
+import org.openwaterfoundation.tstool.plugin.bitbucket.dao.IssueComparator;
+import org.openwaterfoundation.tstool.plugin.bitbucket.dao.IssueLinks;
+import org.openwaterfoundation.tstool.plugin.bitbucket.dao.Link;
 import org.openwaterfoundation.tstool.plugin.bitbucket.dao.User;
 import org.openwaterfoundation.tstool.plugin.bitbucket.dao.Project;
 import org.openwaterfoundation.tstool.plugin.bitbucket.dao.Repository;
@@ -445,11 +449,12 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	int issueRepositoryNameCol,
     	String [] issueProperties, int [] issuePropertiesCol,
     	int issueIdCol,
+    	int issueLinkCol,
     	int issueTitleCol,
     	//int issueNameCol,
-    	int issueTypeCol,
-    	int issueKindCol,
+    	//int issueTypeCol,
     	int issuePriorityCol,
+    	int issueKindCol,
     	int issueStateCol,
     	int issueAssigneeCol,
     	int issueReporterCol,
@@ -459,7 +464,7 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	int issueEditedOnCol,
     	String assigneeToMatch,
     	boolean includeOpenIssues, boolean includeClosedIssues,
-		String regEx, String listRepositoriesCountProperty,
+		String regEx, String listRepositoryIssuesCountProperty,
 		int timeoutSeconds,
 		CommandStatus status, int logLevel, int warningCount, String commandTag ) throws Exception {
 		String routine = getClass().getSimpleName() + ".doListRepositoryIssues";
@@ -482,12 +487,17 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	// Loop through the repositories and read the issues for each.
 
    		Message.printStatus(2, routine, "Reading issues for " + repositoryList.size() + " repositories.");
+   		List<Issue> issues = new ArrayList<>();
     	for ( Repository repository : repositoryList ) {
-    		// Read the repository issues.
+    		// Read the repository issues:
+    		// - for now don't use API query parameters to filter
     		Message.printStatus(2, routine, "Reading issues for repository \"" + repository.getName() + "\"");
-    		List<Issue> issues = dataStore.readRepositoryIssues ( session, repository, timeoutSeconds );
+    		List<Issue> issues0 = dataStore.readRepositoryIssues ( session, repository, timeoutSeconds );
 
-	  		for ( Issue issue : issues ) {
+    		// Filter the returned issues:
+    		// - only include matched issues in the output table
+    		
+	  		for ( Issue issue : issues0 ) {
 		  		String issueTitle = issue.getTitle();
 		  		if ( doRegEx ) {
 			  		if ( !issueTitle.matches(regEx) ) {
@@ -525,68 +535,89 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
 		  				continue;
 		  			}
 		  		}
-		  		if ( table != null ) {
-		  			// Output to table.
-			  		if ( !allowDuplicates ) {
-				  		// Try to match the repository name, which is the unique identifier.
-				  		rec = table.getRecord ( issueTitleCol, issueTitle );
-			  		}
-			  		if ( rec == null ) {
-				  		// Create a new record.
-				  		rec = table.addRecord(table.emptyRecord());
-			  		}
-			  		// Set the data in the record.
-			  		rec.setFieldValue(issueRepositoryNameCol,issue.getRepositoryObject().getName());
-			  		for ( int i = 0; i < issueProperties.length; i++ ) {
-			  			String propValue = issue.getProperty(issueProperties[i]);
-			  			// OK to set as null.
-			  			rec.setFieldValue(issuePropertiesCol[i],propValue);
-			  		}
-			  		rec.setFieldValue(issueIdCol,issue.getId());
-			  		rec.setFieldValue(issueTitleCol,issueTitle);
-			  		//rec.setFieldValue(issueNameCol,issue.getName());
-			  		rec.setFieldValue(issueTypeCol,issue.getType());
-			  		rec.setFieldValue(issueKindCol,issue.getKind());
-			  		rec.setFieldValue(issuePriorityCol,issue.getPriority());
-			  		rec.setFieldValue(issueStateCol,issue.getState());
-			  		User assignee = issue.getAssignee();
-			  		if ( assignee != null ) {
-			  			rec.setFieldValue(issueAssigneeCol,assignee.getDisplayName());
-			  		}
-			  		User reporter = issue.getReporter();
-			  		if ( reporter != null ) {
-			  			rec.setFieldValue(issueReporterCol,reporter.getDisplayName());
-			  		}
-			  		rec.setFieldValue(issueAgeDaysCol,issue.getAgeDays());
-			  		rec.setFieldValue(issueCreatedOnCol,issue.getCreatedOnAsDateTime());
-			  		rec.setFieldValue(issueUpdatedOnCol,issue.getUpdatedOnAsDateTime());
-			  		rec.setFieldValue(issueEditedOnCol,issue.getEditedOnAsDateTime());
-		  		}
+		  		
+		  		// Remaining issues are added to the combined list.
+		  		issues.add(issue);
 	  		}
-	  		// Set the processor property indicating the number of repositories.
-      		if ( (listRepositoriesCountProperty != null) && !listRepositoriesCountProperty.equals("") ) {
-      	  		int repositoryCount = 0;
-      	  		if ( table != null ) {
-      		  		repositoryCount = table.getNumberOfRecords();
-      	  		}
-       	  		PropList requestParams = new PropList ( "" );
-       	  		requestParams.setUsingObject ( "PropertyName", listRepositoriesCountProperty );
-       	  		requestParams.setUsingObject ( "PropertyValue", Integer.valueOf(repositoryCount) );
-       	  		try {
-           	  		processor.processRequest( "SetProperty", requestParams);
-       	  		}
-       	  		catch ( Exception e ) {
-           	  		message = "Error requesting SetProperty(Property=\"" + listRepositoriesCountProperty + "\") from processor.";
-           	  		Message.printWarning(logLevel,
-               	  		MessageUtil.formatMessageTag( commandTag, ++warningCount),
-                   	  		routine, message );
-               	  		status.addToLog ( CommandPhaseType.RUN,
-                   	  		new CommandLogRecord(CommandStatusType.FAILURE,
-                       	  		message, "Report the problem to software support." ) );
-          		}
-    		}
     	}
 
+		// Sort on the assignee, repository, priority, and age.
+		Collections.sort(issues, new IssueComparator());
+    	
+    	// The remaining issues are added to the output table.
+
+		if ( table != null ) {
+  			// Output to table.
+			for ( Issue issue : issues ) {
+				String issueTitle = issue.getTitle();
+		  		if ( !allowDuplicates ) {
+			  		// Try to match the repository name, which is the unique identifier.
+			  		rec = table.getRecord ( issueTitleCol, issueTitle );
+		  		}
+		  		if ( rec == null ) {
+			  		// Create a new record.
+			  		rec = table.addRecord(table.emptyRecord());
+		  		}
+		  		// Set the data in the record.
+		  		rec.setFieldValue(issueRepositoryNameCol,issue.getRepositoryObject().getName());
+		  		for ( int i = 0; i < issueProperties.length; i++ ) {
+		  			String propValue = issue.getProperty(issueProperties[i]);
+		  			// OK to set as null.
+		  			rec.setFieldValue(issuePropertiesCol[i],propValue);
+		  		}
+		  		rec.setFieldValue(issueIdCol,issue.getId());
+		  		IssueLinks issueLinks = issue.getIssueLinks();
+		  		if ( issueLinks != null ) {
+		  			Link html = issueLinks.getHtml();
+		  			if ( html != null ) {
+		  				rec.setFieldValue(issueLinkCol,html.getHref());
+		  			}
+		  		}
+		  		rec.setFieldValue(issueTitleCol,issueTitle);
+		  		//rec.setFieldValue(issueNameCol,issue.getName());
+		  		//rec.setFieldValue(issueTypeCol,issue.getType());
+		  		rec.setFieldValue(issuePriorityCol,issue.getPriority());
+		  		rec.setFieldValue(issueKindCol,issue.getKind());
+		  		rec.setFieldValue(issueStateCol,issue.getState());
+		  		User assignee = issue.getAssignee();
+		  		if ( assignee != null ) {
+		  			rec.setFieldValue(issueAssigneeCol,assignee.getDisplayName());
+		  		}
+		  		User reporter = issue.getReporter();
+		  		if ( reporter != null ) {
+		  			rec.setFieldValue(issueReporterCol,reporter.getDisplayName());
+		  		}
+		  		rec.setFieldValue(issueAgeDaysCol,issue.getAgeDays());
+		  		rec.setFieldValue(issueCreatedOnCol,issue.getCreatedOnAsDateTime());
+		  		rec.setFieldValue(issueUpdatedOnCol,issue.getUpdatedOnAsDateTime());
+		  		rec.setFieldValue(issueEditedOnCol,issue.getEditedOnAsDateTime());
+			}
+  		}
+
+  		// Set the processor property indicating the number of issues.
+
+  		if ( (listRepositoryIssuesCountProperty != null) && !listRepositoryIssuesCountProperty.equals("") ) {
+  	  		int repositoryIssuesCount = 0;
+  	  		if ( table != null ) {
+  		  		repositoryIssuesCount = table.getNumberOfRecords();
+  	  		}
+   	  		PropList requestParams = new PropList ( "" );
+   	  		requestParams.setUsingObject ( "PropertyName", listRepositoryIssuesCountProperty );
+   	  		requestParams.setUsingObject ( "PropertyValue", Integer.valueOf(repositoryIssuesCount) );
+   	  		try {
+       	  		processor.processRequest( "SetProperty", requestParams);
+   	  		}
+   	  		catch ( Exception e ) {
+       	  		message = "Error processing processor request SetProperty(Property=\"" + listRepositoryIssuesCountProperty + "\").";
+       	  		Message.printWarning(logLevel,
+           	  		MessageUtil.formatMessageTag( commandTag, ++warningCount),
+               	  		routine, message );
+           	  		status.addToLog ( CommandPhaseType.RUN,
+               	  		new CommandLogRecord(CommandStatusType.FAILURE,
+                   	  		message, "Report the problem to software support." ) );
+      		}
+		}
+    	
         // Return the updated warning count.
         return warningCount;
 	}
@@ -969,11 +1000,12 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
         		int issueRepositoryNameCol = -1;
         		int [] issuePropertiesCol = new int[issueProperties.length];
         		int issueIdCol = -1;
+        		int issueLinkCol = -1;
         		int issueTitleCol = -1;
         		//int issueNameCol = -1;
-        		int issueTypeCol = -1;
-        		int issueKindCol = -1;
+        		//int issueTypeCol = -1;
         		int issuePriorityCol = -1;
+        		int issueKindCol = -1;
         		int issueStateCol = -1;
         		int issueAssigneeCol = -1;
         		int issueReporterCol = -1;
@@ -1011,11 +1043,12 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	        				columnList.add ( new TableField(TableField.DATA_TYPE_STRING, issueProperties[i], -1) );
     	        			}
     	        			columnList.add ( new TableField(TableField.DATA_TYPE_INT, "Id", -1) );
+    	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Link", -1) );
     	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Title", -1) );
     	        			//columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Name", -1) );
-    	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Type", -1) );
-    	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Kind", -1) );
+    	        			//columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Type", -1) );
     	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Priority", -1) );
+    	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Kind", -1) );
     	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "State", -1) );
     	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Assignee", -1) );
     	        			columnList.add ( new TableField(TableField.DATA_TYPE_STRING, "Reporter", -1) );
@@ -1053,11 +1086,12 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	        				issuePropertiesCol[i] = table.getFieldIndex(issueProperties[i]);
     	        			}
     	        			issueIdCol = table.getFieldIndex("Id");
+    	        			issueLinkCol = table.getFieldIndex("Link");
     	        			issueTitleCol = table.getFieldIndex("Title");
     	        			//issueNameCol = table.getFieldIndex("Name");
-    	        			issueTypeCol = table.getFieldIndex("Type");
-    	        			issueKindCol = table.getFieldIndex("Kind");
+    	        			//issueTypeCol = table.getFieldIndex("Type");
     	        			issuePriorityCol = table.getFieldIndex("Priority");
+    	        			issueKindCol = table.getFieldIndex("Kind");
     	        			issueStateCol = table.getFieldIndex("State");
     	        			issueAssigneeCol = table.getFieldIndex("Assignee");
     	        			issueReporterCol = table.getFieldIndex("Reporter");
@@ -1156,11 +1190,12 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	        				issuePropertiesCol[i] = table.getFieldIndex(issueProperties[i]);
     	        			}
     	        			issueIdCol = table.getFieldIndex("Id");
+    	        			issueLinkCol = table.getFieldIndex("Link");
     	        			issueTitleCol = table.getFieldIndex("Title");
     	        			//issueNameCol = table.getFieldIndex("Name");
-    	        			issueTypeCol = table.getFieldIndex("Type");
-    	        			issueKindCol = table.getFieldIndex("Kind");
+    	        			//issueTypeCol = table.getFieldIndex("Type");
     	        			issuePriorityCol = table.getFieldIndex("Priority");
+    	        			issueKindCol = table.getFieldIndex("Kind");
     	        			issueStateCol = table.getFieldIndex("State");
     	        			issueAssigneeCol = table.getFieldIndex("Assignee");
     	        			issueReporterCol = table.getFieldIndex("Reporter");
@@ -1174,20 +1209,23 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	        			if ( issueIdCol < 0 ) {
     	            			issueIdCol = table.addField(new TableField(TableField.DATA_TYPE_INT, "Id", -1), "");
     	        			}
+    	        			if ( issueLinkCol < 0 ) {
+    	            			issueLinkCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Link", -1), "");
+    	        			}
     	        			if ( issueTitleCol < 0 ) {
     	            			issueTitleCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Title", -1), "");
     	        			}
     	        			//if ( issueNameCol < 0 ) {
     	            			//issueNameCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Name", -1), "");
     	        			//}
-    	        			if ( issueTypeCol < 0 ) {
-    	            			issueTypeCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Type", -1), "");
+    	        			//if ( issueTypeCol < 0 ) {
+    	            		//	issueTypeCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Type", -1), "");
+    	        			//}
+    	        			if ( issuePriorityCol < 0 ) {
+    	            			issuePriorityCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Priority", -1), "");
     	        			}
     	        			if ( issueKindCol < 0 ) {
     	            			issueKindCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Kind", -1), "");
-    	        			}
-    	        			if ( issuePriorityCol < 0 ) {
-    	            			issuePriorityCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "Priority", -1), "");
     	        			}
     	        			if ( issueStateCol < 0 ) {
     	            			issueStateCol = table.addField(new TableField(TableField.DATA_TYPE_STRING, "State", -1), "");
@@ -1283,11 +1321,12 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	        		issueRepositoryNameCol,
     	    			issueProperties, issuePropertiesCol,
     	        		issueIdCol,
+    	        		issueLinkCol,
     	        		issueTitleCol,
     	        		//issueNameCol,
-    	        		issueTypeCol,
-    	        		issueKindCol,
+    	        		//issueTypeCol,
     	        		issuePriorityCol,
+    	        		issueKindCol,
     	        		issueStateCol,
     	        		issueAssigneeCol,
     	        		issueReporterCol,
