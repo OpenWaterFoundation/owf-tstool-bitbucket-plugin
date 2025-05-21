@@ -264,7 +264,15 @@ public class Repository {
 			return null;
 		}
 		else {
-			return DateTime.parse(this.createdOn);
+			// Get the current date with day precision.
+			DateTime now = new DateTime ( DateTime.DATE_CURRENT );
+			// Parse the data, which will have date and time (UTC).
+			DateTime dt = DateTime.parse(this.createdOn);
+			if ( !now.equals(dt, DateTime.PRECISION_DAY) ) {
+				// Return only the date.
+				dt.setPrecision(DateTime.PRECISION_DAY);
+			}
+			return dt;
 		}
 	}
 
@@ -405,7 +413,15 @@ public class Repository {
 			return null;
 		}
 		else {
-			return DateTime.parse(this.updatedOn);
+			// Get the current date with day precision.
+			DateTime now = new DateTime ( DateTime.DATE_CURRENT );
+			// Parse the data, which will have date and time (UTC).
+			DateTime dt = DateTime.parse(this.updatedOn);
+			if ( !now.equals(dt, DateTime.PRECISION_DAY) ) {
+				// Return only the date.
+				dt.setPrecision(DateTime.PRECISION_DAY);
+			}
+			return dt;
 		}
 	}
 

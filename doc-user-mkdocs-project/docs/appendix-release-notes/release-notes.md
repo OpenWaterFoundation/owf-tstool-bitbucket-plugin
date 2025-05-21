@@ -7,9 +7,18 @@ See the [TSTool release notes](http://opencdss.state.co.us/tstool/latest/doc-use
 Plugin release notes are listed below.
 The repository issue for release note item is shown where applicable.
 
+*   [Version 1.0.1](#version-101)
 *   [Version 1.0.0](#version-100)
 
 ----------
+
+## Version 1.0.1 ##
+
+**Maintenance release to clean up the initial features.**
+
+*   ![new](new.png) [1.0.1] Update the [`Bitbucket`](../command-ref/Bitbucket/Bitbucket.md) command:
+    +   Change so date/times are output as a date unless it is the current day.
+        Times are typically not needed except for recent issues.
 
 ## Version 1.0.0 ##
 

@@ -11,7 +11,7 @@ using the [Bitbucket Cloud API](https://developer.atlassian.com/cloud/bitbucket/
 This documentation has been updated for:
 
 *   TSTool version 15.1.0
-*   TSTool Bitbucket plugin version 1.0.0
+*   TSTool Bitbucket plugin version 1.0.1
 
 ----------------
 
