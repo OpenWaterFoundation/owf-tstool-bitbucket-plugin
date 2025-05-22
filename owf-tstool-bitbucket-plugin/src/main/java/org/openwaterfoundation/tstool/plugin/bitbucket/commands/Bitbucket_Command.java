@@ -1337,7 +1337,7 @@ implements CommandDiscoverable, FileGenerator, ObjectListProvider
     	    			Assignee,
     	        		includeOpenIssues, includeClosedIssues,
     	    			listRepositoryIssuesRegEx,
-    	    			ListRepositoriesCountProperty,
+    	    			ListRepositoryIssuesCountProperty,
     	    			timeoutSeconds,
     	    			status, logLevel, warningCount, commandTag );
     	    	}
