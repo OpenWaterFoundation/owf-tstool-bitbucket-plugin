@@ -16,9 +16,11 @@ The repository issue for release note item is shown where applicable.
 
 **Maintenance release to clean up the initial features.**
 
-*   ![new](new.png) [1.0.1] Update the [`Bitbucket`](../command-ref/Bitbucket/Bitbucket.md) command:
-    +   Change so date/times are output as a date unless it is the current day.
-        Times are typically not needed except for recent issues.
+*   Update the [`Bitbucket`](../command-ref/Bitbucket/Bitbucket.md) command:
+    +   ![bug](bug.png) [#2] Fix so that the `ListRepositoryIssuesCountProperty` value is actually set
+        when listing repository issues.
+    +   ![change](change.png) [#4] Change so that date/times are output as a date unless it is the current day.
+        Times are typically only needed for recent issues.
 
 ## Version 1.0.0 ##
 
